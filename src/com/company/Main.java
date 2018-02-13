@@ -2,12 +2,10 @@ package com.company;
 
 public class Main {
     public static void main(String[] args) {
-        Model model = new Model();
-        Controller controller = new Controller();
-        View look =  new View();
+        View view =  new View();
+        Model model = new Model(view);
+        Controller controller = new Controller(model, view);
 
-        View.message(View.RULES);
-        while(!look.isContinueSwitcher())
-            look.response(model.calculateResult(controller.controlData()), model.getCollection());
+        controller.processUser();
     }
 }

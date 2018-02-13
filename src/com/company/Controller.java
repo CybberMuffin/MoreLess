@@ -2,6 +2,18 @@ package com.company;
 import java.util.Scanner;
 
 public class Controller {
+    View view;
+    Model model;
+    public void processUser(){
+        view.printMessage(View.RULES);
+        while(!model.isEndGame())
+            model.response(model.calculateResult(controlData()), model.getCollectionIntArray());
+    }
+
+    public Controller(Model model, View view){
+        this.view = view;
+        this.model = model;
+    }
     public int controlData(){
         Scanner in = new Scanner(System.in);
 
@@ -10,13 +22,13 @@ public class Controller {
 
         while (!isOnlyDigits(userLine) || (userNumber < 0 || userNumber > 100)) {
             if (!isOnlyDigits(userLine)) {
-                View.message(View.INCORRECT_TYPE);
+                view.printMessage(View.INCORRECT_TYPE);
                 userLine = in.nextLine();
             }
             else {
                 userNumber = Integer.parseInt(userLine);
                 if ((userNumber < 0 || userNumber > 100)) {
-                    View.message(View.INCORRECT_DATA);
+                    view.printMessage(View.INCORRECT_DATA);
                     userLine = in.nextLine();
                 }
             }
