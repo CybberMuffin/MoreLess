@@ -9,5 +9,6 @@ public class Main {
         View.message(View.RULES);
         while(!look.isContinueSwitcher())
             look.response(model.calculateResult(controller.controlData()), model.getCollection());
+        /*bullshit detected, upgrade incoming*/
     }
 }
