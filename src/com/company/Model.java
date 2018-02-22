@@ -7,6 +7,12 @@ public class Model {
     private int randomNumber;
     private int[] resultInfo = new int[4];
     private Vector collection = new Vector();
+    private int lowerBound = 0;
+    private int upperBound = 100;
+    private int counter = 0;
+    private boolean victoryFlag;
+    private boolean lowerHigherFlag;
+
     View view;
     Model(View view){
         this.view = view;
@@ -15,24 +21,33 @@ public class Model {
         resultInfo[2] = 100;
     }
 
-    public int[] calculateResult(int guessNumber){
-        resultInfo[3]++;
+    public void calculateResult(int guessNumber){
+        counter++;
         if(guessNumber == randomNumber){
-            resultInfo[0] = 1;
+            victoryFlag = true;
         }
         else if(guessNumber < randomNumber){
-            resultInfo[0] = 2;
-            if(guessNumber > resultInfo[1])
-                resultInfo[1] = guessNumber;
+            lowerHigherFlag = false;
+            if(guessNumber > lowerBound)
+                lowerBound = guessNumber;
         }
         else {
-            resultInfo[0] = 3;
-            if(guessNumber < resultInfo[2])
-                resultInfo[2] = guessNumber;
+            lowerHigherFlag = true;
+            if(guessNumber < upperBound)
+                upperBound = guessNumber;
         }
-        collection.add(resultInfo[1]);
-        collection.add(resultInfo[2]);
-        return resultInfo;
+        addNewBorders();
+    }
+
+    private void addNewBorders() {
+        collection.add(lowerBound);
+        collection.add(upperBound);
+    }
+
+    private int rand(int a, int b){
+        Random random = new Random();
+        int num = a + random.nextInt(b - a + 1);
+        return num;
     }
 
     public int[] getCollectionIntArray() {
@@ -42,27 +57,35 @@ public class Model {
 
         return arr;
     }
-
-    public void response(int[] result, int[] stats){
-        if(result[0] == 1){
-            view.victoryMessageAndStats(stats, result[3]);
-            endGame = true;
-        }
-        else if(result[0] == 2){
-           view.printMessageAndBounds(View.NUMBER_IS_GREATER, result[1], result[2]);
-        }
-        else if(result[0] == 3) {
-            view.printMessageAndBounds(View.NUMBER_IS_LESS, result[1], result[2]);
-        }
-    }
-
-    private int rand(int a, int b){
-        Random random = new Random();
-        int num = a + random.nextInt(b - a + 1);
-        return num;
-    }
     public boolean isEndGame() {
         return endGame;
     }
 
+    public int[] getResultInfo() {
+        return resultInfo;
+    }
+
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
+    }
+
+    public boolean isVictoryFlag() {
+        return victoryFlag;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public int getUpperBound() {
+        return upperBound;
+    }
+
+    public int getLowerBound() {
+        return lowerBound;
+    }
+
+    public boolean isLowerHigherFlag() {
+        return lowerHigherFlag;
+    }
 }
