@@ -7,15 +7,13 @@ public class Controller {
     public void processUser(){
         view.printMessage(View.RULES);
         while(!model.isEndGame())
-            model.calculateResult(controlData());
-            response(model.getCounter(), model.getCollectionIntArray());
+            response(model.calculateResult(controlData()), model.getCollectionIntArray());
     }
 
     public Controller(Model model, View view){
         this.view = view;
         this.model = model;
     }
-
     public int controlData(){
         Scanner in = new Scanner(System.in);
 
@@ -35,21 +33,19 @@ public class Controller {
                 }
             }
         }
-
         return userNumber;
     }
 
-    public void response(int counter, int[] stats){
-        if(model.isVictoryFlag()){
-            view.victoryMessageAndStats(stats, counter);
-            model.setEndGame(true);
-        }
-        else if(model.isLowerHigherFlag()){
-            view.printMessageAndBounds(View.NUMBER_IS_GREATER, model.getLowerBound(), model.getUpperBound());
-        }
-        else if(!model.isLowerHigherFlag()) {
-            view.printMessageAndBounds(View.NUMBER_IS_LESS, model.getLowerBound(), model.getUpperBound());
-        }
+    public void response(int[] result, int[] stats){
+            if(result[0] == 1){
+                view.victoryMessageAndStats(stats, result[3]);
+                model.setEndGame(true);
+            } else if (result[0] == 2) {
+                view.printMessageAndBounds(View.NUMBER_IS_GREATER, result[1], result[2]);
+    }
+            else if (result[0] == 3){
+                view.printMessageAndBounds(View.NUMBER_IS_LESS, result[1], result[2 ]);
+            }
     }
 
     private static boolean isOnlyDigits(String str) {

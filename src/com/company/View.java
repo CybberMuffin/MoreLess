@@ -23,7 +23,7 @@ public class View {
     public void victoryMessageAndStats(int[] stats, int numberOfTurns){
         System.out.println("Congratulations! You won!\n" +
                 "You made " + numberOfTurns + " guesses to won this game!\n" +
-                "Your gamestory:\n");
+                "Your game story:\n");
 
         for (int i = 0; i < (stats.length / 2); i++){
             if(i == stats.length / 2 - 1)

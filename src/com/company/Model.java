@@ -7,12 +7,6 @@ public class Model {
     private int randomNumber;
     private int[] resultInfo = new int[4];
     private Vector collection = new Vector();
-    private int lowerBound = 0;
-    private int upperBound = 100;
-    private int counter = 0;
-    private boolean victoryFlag;
-    private boolean lowerHigherFlag;
-
     View view;
     Model(View view){
         this.view = view;
@@ -21,28 +15,31 @@ public class Model {
         resultInfo[2] = 100;
     }
 
-    public void calculateResult(int guessNumber){
-        counter++;
+    public int[] calculateResult(int guessNumber){
+        resultInfo[3]++;
         if(guessNumber == randomNumber){
-            victoryFlag = true;
+            resultInfo[0] = 1;
         }
         else if(guessNumber < randomNumber){
-            lowerHigherFlag = false;
-            if(guessNumber > lowerBound)
-                lowerBound = guessNumber;
+            resultInfo[0] = 2;
+            if(guessNumber > resultInfo[1])
+                resultInfo[1] = guessNumber;
         }
         else {
-            lowerHigherFlag = true;
-            if(guessNumber < upperBound)
-                upperBound = guessNumber;
+            resultInfo[0] = 3;
+            if(guessNumber < resultInfo[2])
+                resultInfo[2] = guessNumber;
         }
         addNewBorders();
+        return resultInfo;
     }
 
     private void addNewBorders() {
-        collection.add(lowerBound);
-        collection.add(upperBound);
+        collection.add(resultInfo[1]);
+        collection.add(resultInfo[2]);
     }
+
+
 
     private int rand(int a, int b){
         Random random = new Random();
@@ -57,35 +54,13 @@ public class Model {
 
         return arr;
     }
+
     public boolean isEndGame() {
         return endGame;
-    }
-
-    public int[] getResultInfo() {
-        return resultInfo;
     }
 
     public void setEndGame(boolean endGame) {
         this.endGame = endGame;
     }
 
-    public boolean isVictoryFlag() {
-        return victoryFlag;
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public int getUpperBound() {
-        return upperBound;
-    }
-
-    public int getLowerBound() {
-        return lowerBound;
-    }
-
-    public boolean isLowerHigherFlag() {
-        return lowerHigherFlag;
-    }
 }
